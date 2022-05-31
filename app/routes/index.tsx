@@ -1,15 +1,41 @@
-import { LoaderFunction, redirect } from "remix";
+import type { LoaderFunction, MetaFunction } from '@remix-run/cloudflare';
+import { json } from '@remix-run/cloudflare';
+import { useLoaderData } from '@remix-run/react';
+import { getPosts } from '~/lib/posts.server';
+import type { Post } from '~/../prisma/node_modules/.prisma/client';
+import PostComp from '~/components/Post';
+import { getImage } from '~/lib/images.db.server';
+import { CarouselImage } from '~/components/Carousel';
+// https://remix.run/api/conventions#meta
+export let meta: MetaFunction = () => {
+	return {
+		title: 'Drift Off Course',
+		description: 'Chetek, WI Boat Rental',
+	};
+};
 
-export const loader:LoaderFunction = ({ request }) => {
-  // Keep this route as a placeholder for when you want real content on the index
-  // Until then, send everyone into the app
-  return redirect('/triage')
-}
+export let loader: LoaderFunction = async () => {
+	const posts = await getPosts();
+	const homePosts = posts.filter((post) => post.page === 'home');
+	const image = await getImage('cl3sxxyqr2505sfengsnbaa7e');
+	return json({ posts, homePosts, logo: image });
+};
 
+// https://remix.run/guides/routing#index-routes
 export default function Index() {
-  return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      <h1> Marketing Landing Page</h1>
-    </div>
-  );
+	const data = useLoaderData<{ posts: Post[]; logo: CarouselImage }>() || [];
+	return (
+		<div className="flex min-h-screen flex-col gap-4">
+			<p className="text-center text-2xl font-bold uppercase">
+				Drift Off Course
+			</p>
+			{data.posts.map((post, i) => (
+				<PostComp
+					key={i}
+					image={i === 0 ? data.logo : undefined}
+					post={post}
+				></PostComp>
+			))}
+		</div>
+	);
 }

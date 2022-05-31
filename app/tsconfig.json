@@ -1,9 +1,0 @@
-{
-  "extends": "../shared-tsconfig.json",
-  "include": ["./**/*"],
-  "compilerOptions": {
-    "paths": {
-      "~/*": ["./*"]
-    }
-  }
-}

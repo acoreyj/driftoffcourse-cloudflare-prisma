@@ -1,3 +1,10 @@
+npx prisma db pull
+npx prisma generate
+
+DATABASE_URL="postgresql://postgres:please88@localhost:5432/reserve"
+sudo service postgresql start
+
+
 ![image](https://user-images.githubusercontent.com/5633704/149652098-2fb61ce1-aea5-4cea-b4bb-a6d2888d129b.png)
 
 # Remix Cloudflare Prisma Example

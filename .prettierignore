@@ -9,3 +9,8 @@ node_modules
 /app/tailwind.css
 
 /server-build
+/.cache
+/build
+/dist
+/public/build
+/app/styles/app.css
