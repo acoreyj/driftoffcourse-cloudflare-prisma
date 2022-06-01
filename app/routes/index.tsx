@@ -1,8 +1,8 @@
 import type { LoaderFunction, MetaFunction } from '@remix-run/cloudflare';
 import { json } from '@remix-run/cloudflare';
 import { useLoaderData } from '@remix-run/react';
-import { getPosts } from '~/lib/posts.server';
-import type { Post } from '~/../prisma/node_modules/.prisma/client';
+import { getPosts } from '~/lib/posts.db.server';
+import type { Post } from '@prisma/client';
 import PostComp from '~/components/Post';
 import { getImage } from '~/lib/images.db.server';
 import { CarouselImage } from '~/components/Carousel';
@@ -14,7 +14,7 @@ export let meta: MetaFunction = () => {
 	};
 };
 
-export let loader: LoaderFunction = async () => {
+export let loader: LoaderFunction = async ({ context }) => {
 	const posts = await getPosts();
 	const homePosts = posts.filter((post) => post.page === 'home');
 	const image = await getImage('cl3sxxyqr2505sfengsnbaa7e');

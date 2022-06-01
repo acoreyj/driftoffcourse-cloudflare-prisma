@@ -1,59 +1,44 @@
-import { PrismaClient } from '~/../prisma/node_modules/.prisma/client';
 
-const primaryDB = 'postgresql://postgres:please88@localhost:5432/reserve';
+import { PrismaClient } from "@prisma/client";
 
-const isLocalHost = primaryDB.includes('localhost');
-
-const logThreshold = 50;
 let db: PrismaClient;
 
-function getClient(type: 'write' | 'read'): PrismaClient {
-	console.log(`Setting up Prisma client to localhost for ${type}`);
-	// NOTE: during development if you change anything in this function, remember
-	// that this only runs once per server restart and won't automatically be
-	// re-run per request like everything else is.
-	const client = new PrismaClient({
-		log: [
-			{ level: 'query', emit: 'event' },
-			{ level: 'error', emit: 'stdout' },
-			{ level: 'info', emit: 'stdout' },
-			{ level: 'warn', emit: 'stdout' },
-		],
-		datasources: {
-			db: {
-				url: primaryDB,
-			},
-		},
-	});
-	client.$on('query', (e) => {
-		if (e.duration < logThreshold) return;
-
-		console.log(`prisma:query - ${e.duration}ms - ${e.query}`);
-	});
-	
-	// make the connection eagerly so the first request doesn't have to wait
-	void client.$connect();
-	db = db || client;
-	return client;
+declare global {
+  var __db: PrismaClient | undefined;
 }
 
-const isProd = process.env.NODE_ENV === 'production';
+// const client = new PrismaClient({
+// 	log: [
+// 		{ level: 'query', emit: 'event' },
+// 		{ level: 'error', emit: 'event' },
+// 		{ level: 'info', emit: 'stdout' },
+// 		{ level: 'warn', emit: 'stdout' },
+// 	]
+// 	// datasources: {
+// 	// 	db: {
+// 	// 		url: primaryDB,
+// 	// 	},
+// 	// },
+// });
+// client.$on('query', (e) => {
+// 	if (e.duration < logThreshold) return;
 
-if (!isProd && !isLocalHost) {
-	// if we're connected to a non-localhost db, let's make
-	// sure we know it.
+// 	console.log(`prisma:query - ${e.duration}ms - ${e.query}`);
+// });
+// client.$on('error', (e) => {
+// 	console.error(`prisma:error - ${JSON.stringify(e)}`);
+// });
 
-	console.warn(
-		`
-⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️
-Connected to non-localhost DB in dev mode:
-  ${primaryDB}
-⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️
-    `.trim()
-	);
+// this is needed because in development we don't want to restart
+// the server with every change, but we want to make sure we don't
+// create a new connection to the DB with every change either.
+if (process.env.NODE_ENV === "production") {
+  db = new PrismaClient();
+} else {
+  if (!global.__db) {
+    global.__db = new PrismaClient();
+  }
+  db = global.__db;
 }
 
-const linkExpirationTime = 1000 * 60 * 30;
-const sessionExpirationTime = 1000 * 60 * 60 * 24 * 365;
-getClient('read');
-export { linkExpirationTime, sessionExpirationTime, getClient, db };
+export { db };

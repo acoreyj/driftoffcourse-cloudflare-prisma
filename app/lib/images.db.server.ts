@@ -2,8 +2,8 @@ import type {
 	Reservable,
 	ReservableDeposit,
 	ReservableTerm,
-	AddressStateType,
-} from '~/../prisma/node_modules/.prisma/client';
+	AddressStateType
+} from '@prisma/client';
 import type { CarouselImage } from '~/components/Carousel';
 import { db } from '~/lib/db.server';
 

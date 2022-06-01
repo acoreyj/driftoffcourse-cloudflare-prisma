@@ -2,7 +2,7 @@
 // import { redirect } from '@remix-run/cloudflare';
 // import { useLoaderData } from '@remix-run/react';
 // import { isAuthenticated, getUserByRequestToken } from '~/lib/auth.server';
-// import type { User } from '~/../prisma/node_modules/.prisma/client';
+// import type { User } from '@prisma/client';
 
 // export let loader: LoaderFunction = async ({ request }) => {
 // 	const url = new URL(request.url);

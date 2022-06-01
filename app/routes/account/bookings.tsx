@@ -4,8 +4,8 @@ import { json } from '@remix-run/cloudflare';
 import { useLoaderData, useSearchParams } from '@remix-run/react';
 import Product from '~/components/blocks/product';
 
-import type { ReservableResponse } from '~/lib/reservables.server';
-import { getReservable } from '~/lib/reservables.server';
+import type { ReservableResponse } from '~/lib/reservables.db.server';
+import { getReservable } from '~/lib/reservables.db.server';
 import {
 	getCancellationCost,
 	getDisplayDateRange,
@@ -13,8 +13,8 @@ import {
 } from '~/utils';
 import { DocumentRenderer } from '@keystone-6/document-renderer';
 import { getUserByRequestToken } from '~/lib/auth.server';
-import type { ReservationResponse } from '~/lib/reservations.server';
-import { getReservation } from '~/lib/reservations.server';
+import type { ReservationResponse } from '~/lib/reservations.db.server';
+import { getReservation } from '~/lib/reservations.db.server';
 import ReservationBreakdown from '~/components/ReservationBreakdown';
 import Modal from '~/components/Modal';
 import { useEffect } from 'react';

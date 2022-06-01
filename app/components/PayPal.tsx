@@ -9,7 +9,7 @@ import type {
 	CheckoutCreateResponse,
 	CreateAction,
 } from '~/routes/account/checkout';
-import type { Prisma } from '~/../prisma/node_modules/.prisma/client';
+import type { Prisma } from '@prisma/client';
 
 interface PayPalInput {
 	createUrl: string;

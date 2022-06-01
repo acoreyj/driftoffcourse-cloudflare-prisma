@@ -7,9 +7,9 @@ import type { AvailabilityResponse } from '~/utils';
 import { getDisplayDateRange, getImageUrl } from '~/utils';
 import { normalizeDate } from '~/utils';
 import { getReservableAvailabilityByDate, isDev } from '~/utils';
-import { getReservable } from './reservables.server';
+import { getReservable } from './reservables.db.server';
+import type { Prisma, PrismaClient, User } from '@prisma/client';
 import { db } from '~/lib/db.server';
-import type { Prisma, User } from '~/../prisma/node_modules/.prisma/client';
 import type { ApproveAction } from '~/routes/account/checkout';
 import { sendConfirmationEmail } from '~/emailHelper.server';
 
@@ -42,7 +42,7 @@ export const createOrder = async (
 	const availabilityByDate = (await getReservableAvailabilityByDate(
 		startDate,
 		endDate,
-		reservable
+		reservable,
 	)) as AvailabilityResponse;
 	if (!availabilityByDate.isAvail) {
 		return { errorMessage: 'unavailable' };

@@ -12,7 +12,7 @@ import {
 	normalizeDate,
 } from '~/utils';
 import NotAvailable from '~/components/NotAvailable';
-import { getReservables } from '~/lib/reservables.server';
+import { getReservables } from '~/lib/reservables.db.server';
 
 export let meta: MetaFunction = () => {
 	return {

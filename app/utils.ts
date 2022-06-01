@@ -1,11 +1,14 @@
 import type { User } from '@firebase/auth';
+import { PrismaClient } from '@prisma/client';
 import { firebaseIdCookieName } from '~/config';
 import { ImageSizeMeta } from './components/Carousel';
-import { getReservables, ReservableResponse } from './lib/reservables.server';
+import { getReservables, ReservableResponse } from './lib/reservables.db.server';
 import {
 	getReservations,
 	ReservationsResponse,
-} from './lib/reservations.server';
+} from './lib/reservations.db.server';
+import { db } from '~/lib/db.server';
+
 import type { FetcherWithComponents } from './lib/types';
 
 export const isServer = typeof document === 'undefined';
@@ -280,7 +283,7 @@ export const getReservableAvailabilityByDate = async (
 	startDate: string,
 	endDate: string,
 	reservable: ReservableResponse,
-	reservations?: ReservationsResponse[]
+	reservations?: ReservationsResponse[],
 ): Promise<AvailabilityResponse | void> => {
 	endDate = endDate || startDate;
 	if (startDate && endDate) {
@@ -289,7 +292,7 @@ export const getReservableAvailabilityByDate = async (
 		if (startDateDate && endDateDate) {
 			startDate = startDateDate.toUTCString();
 			endDate = endDateDate.toUTCString();
-			reservations = reservations || (await getReservations());
+			reservations = reservations ?? (await getReservations());
 			const availability = getReservableDates(reservable, reservations);
 			return getReservableAvailabilityResponse(
 				startDateDate,

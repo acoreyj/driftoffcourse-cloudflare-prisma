@@ -4,7 +4,7 @@ import { json } from '@remix-run/cloudflare';
 import { useLoaderData, useSearchParams } from '@remix-run/react';
 import Product from '~/components/blocks/product';
 
-import { getReservable } from '~/lib/reservables.server';
+import { getReservable } from '~/lib/reservables.db.server';
 import type { AvailabilityResponse } from '~/utils';
 import { getDisplayDateRange, normalizeDate } from '~/utils';
 import { getReservableAvailabilityByDate } from '~/utils';
@@ -24,7 +24,6 @@ export let meta: MetaFunction = () => {
 type BookingData = {
 	availabilityResponse: AvailabilityResponse;
 };
-
 export let loader: LoaderFunction = async ({ params, request }) => {
 	const url = new URL(request.url);
 	let startDate = url.searchParams.get('startDate') as string;

@@ -3,8 +3,8 @@ import { json } from '@remix-run/cloudflare';
 import { useLoaderData } from '@remix-run/react';
 import Product from '~/components/blocks/product';
 
-import type { ReservableResponse } from '~/lib/reservables.server';
-import { getReservables } from '~/lib/reservables.server';
+import type { ReservableResponse } from '~/lib/reservables.db.server';
+import { getReservables } from '~/lib/reservables.db.server';
 
 export type ReservablesData = {
 	reservables: ({ minCost?: number } & ReservableResponse)[];

@@ -3,10 +3,10 @@ import type {
 	ReservableDeposit,
 	ReservableTerm,
 	AddressStateType,
-} from '~/../prisma/node_modules/.prisma/client';
+} from '@prisma/client';
 import type { CarouselImage } from '~/components/Carousel';
-import { db } from '~/lib/db.server';
 import type { DocumentRendererProps } from '@keystone-6/document-renderer';
+import { db } from '~/lib/db.server';
 
 export type ReservableResponse = Reservable & {
 	images: CarouselImage[];

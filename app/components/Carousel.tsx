@@ -1,7 +1,7 @@
 import { Link } from "@remix-run/react";
 import type { MouseEvent, PropsWithoutRef, ReactElement } from 'react';
 import { useCallback, useEffect, useState } from 'react';
-import type { ReservableImage } from '~/../prisma/node_modules/.prisma/client';
+import type { ReservableImage } from '@prisma/client';
 import classNames from 'classnames';
 import { IoCameraOutline, IoCaretBack, IoCaretForward } from 'react-icons/io5';
 import Modal from './Modal';

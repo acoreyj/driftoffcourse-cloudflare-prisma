@@ -3,7 +3,7 @@ import type { PropsWithChildren, ReactElement } from 'react';
 import { useState } from 'react';
 import { IoManOutline } from 'react-icons/io5';
 import { Link } from '@remix-run/react';
-import type { ReservationsResponse } from '~/lib/reservations.server';
+import type { ReservationsResponse } from '~/lib/reservations.db.server';
 import type { ReservablesData } from '~/routes/reservables';
 import { getDisplayDateRange, getReservableDates, getYMDStr } from '~/utils';
 import Calendar from '../Calendar';

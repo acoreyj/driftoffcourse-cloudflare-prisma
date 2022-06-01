@@ -4,9 +4,10 @@ import { getFirebaseAdmin } from './firebase/firebase.server';
 import type {
 	Prisma,
 	User,
-	Reservation,
-} from '~/../prisma/node_modules/.prisma/client';
+	Reservation
+} from '@prisma/client';
 import { db } from '~/lib/db.server';
+
 import * as cookie from 'cookie';
 import { nanoid } from 'nanoid';
 import { firebaseIdCookieName } from '~/config';

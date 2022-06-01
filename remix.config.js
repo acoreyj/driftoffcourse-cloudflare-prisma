@@ -28,7 +28,7 @@ withEsbuildOverride((option, { isServer, isDev }) => {
 				values: {
 					'xhr.overrideMimeType': 'xhr && xhr.overrideMimeType',
 				},
-			}),
+			})
 		];
 	}
 	return option;

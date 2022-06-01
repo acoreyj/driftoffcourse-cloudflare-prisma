@@ -11,12 +11,13 @@ import {
 	useSearchParams,
 } from '@remix-run/react';
 import { isAuthenticated, getUserByRequestToken } from '~/lib/auth.server';
-import type { User } from '~/../prisma/node_modules/.prisma/client';
+import type { User } from '@prisma/client';
 import { UserContext } from '~/lib/react/context';
+import { db } from '~/lib/db.server';
 
 import { login } from '~/utils';
 
-export let action: ActionFunction = async ({ request }) => {
+export let action: ActionFunction = async ({ request, context }) => {
 	if (!(await isAuthenticated(request))) return redirect('/login');
 	const { user, created, error } = await getUserByRequestToken(request, true);
 	if (error) {
@@ -25,7 +26,7 @@ export let action: ActionFunction = async ({ request }) => {
 	return json({ ...user, created });
 };
 
-export let loader: LoaderFunction = async ({ request }) => {
+export let loader: LoaderFunction = async ({ request, context }) => {
 	const { user } = await getUserByRequestToken(request);
 	return { user };
 };

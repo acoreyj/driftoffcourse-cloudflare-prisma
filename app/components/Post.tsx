@@ -1,7 +1,7 @@
 import type { PropsWithChildren, ReactElement } from 'react';
 import { useState } from 'react';
 import { Dialog } from '@headlessui/react';
-import type { Post } from '~/../prisma/node_modules/.prisma/client';
+import type { Post } from '@prisma/client';
 import { DocumentRenderer } from '@keystone-6/document-renderer';
 import classNames from 'classnames';
 import type { CarouselImage } from './Carousel';

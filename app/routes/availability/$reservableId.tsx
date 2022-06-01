@@ -4,10 +4,10 @@ import { json } from '@remix-run/cloudflare';
 import { useLoaderData } from "@remix-run/react";
 import Product from '~/components/blocks/product';
 
-import type { ReservableResponse } from '~/lib/reservables.server';
-import { getReservable } from '~/lib/reservables.server';
-import type { ReservationsResponse } from '~/lib/reservations.server';
-import { getReservations } from '~/lib/reservations.server';
+import type { ReservableResponse } from '~/lib/reservables.db.server';
+import { getReservable } from '~/lib/reservables.db.server';
+import type { ReservationsResponse } from '~/lib/reservations.db.server';
+import { getReservations } from '~/lib/reservations.db.server';
 export let meta: MetaFunction = () => {
 	return {
 		title: 'Drift Off Course',

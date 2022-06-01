@@ -2,7 +2,7 @@ import { FaRegQuestionCircle } from 'react-icons/fa';
 import { DocumentRenderer } from '@keystone-6/document-renderer';
 import Modal from '~/components/Modal';
 import type { PropsWithChildren, ReactElement } from 'react';
-import type { ReservationResponse } from '~/lib/reservations.server';
+import type { ReservationResponse } from '~/lib/reservations.db.server';
 
 type ReservationData = {
 	reservation: ReservationResponse;

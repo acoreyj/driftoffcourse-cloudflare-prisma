@@ -1,15 +1,16 @@
-import { db } from '~/lib/db.server';
 import type {
 	Reservation,
 	ReservableDeposit,
 	PurchaseUnit,
 	Receipt,
-} from '~/../prisma/node_modules/.prisma/client';
+	PrismaClient,
+} from '@prisma/client';
 export type ReservationsResponse = {
 	startDate: string;
 	endDate: string | null;
 	reservableId: string | null;
 };
+import { db } from '~/lib/db.server';
 
 export const getReservations = async (): Promise<ReservationsResponse[]> => {
 	const response = (await db.reservation.findMany({

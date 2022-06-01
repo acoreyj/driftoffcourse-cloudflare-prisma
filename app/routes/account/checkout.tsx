@@ -1,8 +1,7 @@
 import { ActionFunction, json, redirect } from '@remix-run/cloudflare';
-import { getUserByRequestToken, isAuthenticated } from '~/lib/auth.server';
-import PayPal from '~/components/PayPal';
+import { getUserByRequestToken } from '~/lib/auth.server';
 import { captureOrder, createOrder } from '~/lib/checkout.server';
-import type { Prisma } from '~/../prisma/node_modules/.prisma/client';
+import type { Prisma } from '@prisma/client';
 
 export interface CreateAction {
 	action: 'create';
@@ -35,14 +34,15 @@ export type CheckoutCreateResponse = {
 	successData?: ApproveAction['successData'];
 };
 
-export let action: ActionFunction = async ({ request }) => {
-	const { user } = await getUserByRequestToken(request);
+export let action: ActionFunction = async ({ request, context }) => {
+	const { user } = await getUserByRequestToken(context.prismaRead, request);
 
 	if (!user) return redirect('/login');
 
 	const data: CheckoutAction = await request.json();
 	if (data.action === 'create') {
 		const order = await createOrder(
+			context.prismaRead,
 			data.startDate,
 			data.endDate,
 			data.reservableId,
@@ -56,7 +56,7 @@ export let action: ActionFunction = async ({ request }) => {
 			return json({ error: 'error' });
 		}
 	} else if (data.action === 'approve' && data.orderID) {
-		const order = await captureOrder(data, user);
+		const order = await captureOrder(context.prismaRead, data, user);
 		return json(order);
 	}
 	return json('unknown request');
