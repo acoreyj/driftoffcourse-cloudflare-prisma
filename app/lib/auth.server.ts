@@ -8,7 +8,7 @@ import type {
 } from '~/../prisma/node_modules/.prisma/client';
 import { db } from '~/lib/db.server';
 import * as cookie from 'cookie';
-import cuid from 'cuid';
+import { nanoid } from 'nanoid';
 import { firebaseIdCookieName } from '~/config';
 export const getDecodedToken = async (
 	request: any
@@ -107,7 +107,7 @@ export const getUserByToken = async (
 					: undefined;
 				if (operation === 'create') {
 					const data: Prisma.UserCreateInput = {
-						id: cuid(),
+						id: nanoid(),
 						name: userRecord.displayName || '',
 						email: userRecord.email || `${firebaseId}@anonuser`,
 						firebaseId,

@@ -8,7 +8,6 @@ const logThreshold = 50;
 let db: PrismaClient;
 
 function getClient(type: 'write' | 'read'): PrismaClient {
-	const connectionUrl = primaryDB;
 	console.log(`Setting up Prisma client to localhost for ${type}`);
 	// NOTE: during development if you change anything in this function, remember
 	// that this only runs once per server restart and won't automatically be
@@ -21,7 +20,7 @@ function getClient(type: 'write' | 'read'): PrismaClient {
 			{ level: 'warn', emit: 'stdout' },
 		],
 		datasources: {
-			postgresql: {
+			db: {
 				url: primaryDB,
 			},
 		},
@@ -31,6 +30,7 @@ function getClient(type: 'write' | 'read'): PrismaClient {
 
 		console.log(`prisma:query - ${e.duration}ms - ${e.query}`);
 	});
+	
 	// make the connection eagerly so the first request doesn't have to wait
 	void client.$connect();
 	db = db || client;
@@ -55,5 +55,5 @@ Connected to non-localhost DB in dev mode:
 
 const linkExpirationTime = 1000 * 60 * 30;
 const sessionExpirationTime = 1000 * 60 * 60 * 24 * 365;
-
+getClient('read');
 export { linkExpirationTime, sessionExpirationTime, getClient, db };

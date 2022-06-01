@@ -1,21 +1,7 @@
-// /**
-//  * @type {import('@remix-run/dev/config').AppConfig}
-//  */
-// module.exports = {
-// 	appDirectory: 'app',
-// 	assetsBuildDirectory: 'public/build',
-// 	publicPath: '/build/',
-// 	serverBuildDirectory: 'build',
-// 	devServerBroadcastDelay: 1000,
-// 	ignoredRouteFiles: ['.*'],
-// 	esbuildOverride: (option, { isServer }) => {
-// 		console.log('isServer', isServer);
-// 		if (isServer) option.mainFields = ['browser', 'module', 'main'];
-
-// 		return option;
-// 	},
-// };
+require('dotenv').config();
+const { replace } = require('esbuild-plugin-replace');
 const { withEsbuildOverride } = require('remix-esbuild-override');
+
 /**
  * Define callbacks for the arguments of withEsbuildOverride.
  * @param option - Default configuration values defined by the remix compiler
@@ -24,22 +10,39 @@ const { withEsbuildOverride } = require('remix-esbuild-override');
  * @return {EsbuildOption} - You must return the updated option
  */
 withEsbuildOverride((option, { isServer, isDev }) => {
-	console.log('isServer', isServer);
-	if (isServer) option.mainFields = ['browser', 'module', 'main'];
-
+	// console.log('isServer', isServer);
+	// if (isServer) option.mainFields = ['browser', 'module', 'main'];
+	if (isServer) {
+		option.define = {
+			...option.define,
+			process: JSON.stringify({
+				env: {
+					...process.env,
+				},
+			}),
+		};
+		option.plugins = [
+			...option.plugins,
+			replace({
+				include: /.*\.js$/,
+				values: {
+					'xhr.overrideMimeType': 'xhr && xhr.overrideMimeType',
+				},
+			}),
+		];
+	}
 	return option;
 });
-
 /**
  * @type {import('@remix-run/dev').AppConfig}
  */
 module.exports = {
-	serverBuildTarget: 'cloudflare-workers',
+	serverBuildTarget: 'cloudflare-pages',
 	server: './server.js',
 	devServerBroadcastDelay: 1000,
 	ignoredRouteFiles: ['**/.*'],
-	appDirectory: 'app',
-	assetsBuildDirectory: 'public/build',
-	serverBuildPath: 'build/index.js',
+	// appDirectory: "app",
+	// assetsBuildDirectory: "public/build",
+	// serverBuildPath: "functions/[[path]].js",
 	// publicPath: "/build/",
 };

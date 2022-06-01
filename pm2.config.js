@@ -35,18 +35,6 @@ module.exports = {
 			},
 		},
 		{
-			name: 'Server',
-			script: 'node build-server.mjs',
-			watch: ['./build/assets.json'],
-			autorestart: false,
-			env: {
-				...process.env,
-				NODE_ENV: process.env.NODE_ENV ?? 'development',
-				DATABASE_URL: process.env.DATABASE_URL,
-				CLOUDFLARE_ACCOUNT_ID: process.env.CLOUDFLARE_ACCOUNT_ID,
-			},
-		},
-		{
 			name: 'Wrangler',
 			script: 'npx wrangler pages dev ./public',
 			ignore_watch: ['.'],
