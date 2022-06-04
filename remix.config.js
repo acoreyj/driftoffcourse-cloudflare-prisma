@@ -28,6 +28,7 @@ withEsbuildOverride((option, { isServer, isDev }) => {
 				include: /.*\.js$/,
 				values: {
 					'xhr.overrideMimeType': 'xhr && xhr.overrideMimeType',
+					'return{inTx:typeof t=="number"&&r?!0:void 0,headers:{transactionId:typeof t=="string"&&r?t:void 0,...n}':'const headers={...n};if(typeof t=="string"&&r){headers.transactionId= t}return{inTx:typeof t=="number"&&r?!0:void 0,headers}'
 				},
 			}),
 			alias({
