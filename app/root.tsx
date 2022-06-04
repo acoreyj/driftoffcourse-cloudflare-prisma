@@ -17,7 +17,6 @@ import {
 	useLocation,
 } from '@remix-run/react';
 
-import appStyleUrl from '~/styles/app.css';
 import firebaseStyles from 'firebaseui/dist/firebaseui.css';
 import innerMoonToggle from '@theme-toggles/react/css/InnerMoon.css';
 import React, { useEffect, useState } from 'react';
@@ -36,13 +35,23 @@ if (!tailwindcss) {
 	);
 }
 
-export const links: LinksFunction = () => {
+export let links: LinksFunction = () => {
 	return [
+		{
+			rel: 'preconnect',
+			href: '//fonts.gstatic.com',
+			crossOrigin: 'anonymous',
+		},
 		{ rel: 'stylesheet', href: tailwindcss },
+		{
+			rel: 'stylesheet',
+			href: '//fonts.googleapis.com/css?family=Work+Sans:300,400,600,700&amp;lang=en',
+		},
 		{
 			rel: 'stylesheet',
 			href: innerMoonToggle,
 		},
+		{ rel: 'stylesheet', href: firebaseStyles },
 	];
 };
 

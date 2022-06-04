@@ -22,6 +22,7 @@ export const login = async (
 ) => {
 	try {
 		const idToken = await user.getIdToken(true);
+		console.log('idToken', idToken)
 		setCookie(firebaseIdCookieName, idToken, 14);
 		fetcher.submit({}, { method: 'post', action: '/account' });
 	} catch {

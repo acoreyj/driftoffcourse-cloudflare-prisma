@@ -41,6 +41,7 @@ export default function Account() {
 		const allowAnonPathnames = ['/account/checkout'];
 		const allowAnon = allowAnonPathnames.includes(window.location.pathname);
 		const setupAccount = async () => {
+			console.log('user kazam :>> ', user);
 			if (!user && fbUser && fetcher.type === 'init') {
 				login(fbUser, fetcher);
 			} else if ((user || fetcher.data) && searchParams.get('sendto')) {

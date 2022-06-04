@@ -27,6 +27,7 @@ type BookingsData = {
 
 export let loader: LoaderFunction = async ({ request }) => {
 	const { user } = await getUserByRequestToken(request);
+	console.log('user :>> ', user);
 	if (user) {
 		const reservablIds = Array.from(
 			new Set(

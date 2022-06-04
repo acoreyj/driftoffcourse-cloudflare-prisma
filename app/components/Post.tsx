@@ -1,4 +1,4 @@
-import type { PropsWithChildren, ReactElement } from 'react';
+import { PropsWithChildren, ReactElement, useCallback, useEffect } from 'react';
 import { useState } from 'react';
 import { Dialog } from '@headlessui/react';
 import type { Post } from '@prisma/client';
@@ -20,6 +20,14 @@ export default function PostComp({
 	const [imgLoaded, setImgLoaded] = useState(false);
 	const img = image?.image_sizesMeta;
 	const maxWidth = Math.min(img?.full?.width || 0, img?.lg?.width || 0);
+	const onLoad = useCallback(() => {
+		setImgLoaded(true);
+	}, []);
+	useEffect(() => {
+		setTimeout(() => {
+			setImgLoaded(true);
+		}, 300);
+	}, []);
 
 	return (
 		<div>
@@ -35,7 +43,7 @@ export default function PostComp({
 							<picture
 								className={classNames({
 									visible: imgLoaded,
-									hidden: !imgLoaded,
+									invisible: !imgLoaded,
 								})}
 							>
 								<source
@@ -47,7 +55,8 @@ export default function PostComp({
 									srcSet={getImageUrl('', img.md, maxWidth)}
 								/>
 								<img
-									onLoad={() => setImgLoaded(true)}
+									onLoad={onLoad}
+									loading="lazy"
 									src={getImageUrl('', img.sm, maxWidth)}
 									alt={image.alt || image.name}
 									width={img.full.width}
@@ -59,7 +68,6 @@ export default function PostComp({
 									className={classNames({
 										hidden: imgLoaded,
 									})}
-									loading="lazy"
 									src={img.base64.base64Data}
 									alt={image.alt || image.name}
 									width={img.full.width}

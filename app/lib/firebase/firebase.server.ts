@@ -1,5 +1,5 @@
 import { initializeApp, ServiceAccount, App, getApp, cert} from 'firebase-admin/app';
-
+import {Buffer} from 'buffer';
 export function getFirebaseAdmin() {
 	const serviceAccount = {
 		"type": "service_account",

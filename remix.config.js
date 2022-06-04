@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { replace } = require('esbuild-plugin-replace');
 const { withEsbuildOverride } = require('remix-esbuild-override');
+const alias = require( 'esbuild-plugin-alias');
 
 /**
  * Define callbacks for the arguments of withEsbuildOverride.
@@ -28,7 +29,10 @@ withEsbuildOverride((option, { isServer, isDev }) => {
 				values: {
 					'xhr.overrideMimeType': 'xhr && xhr.overrideMimeType',
 				},
-			})
+			}),
+			alias({
+				'@prisma/client': require.resolve('@prisma/client'),
+			}),
 		];
 	}
 	return option;
