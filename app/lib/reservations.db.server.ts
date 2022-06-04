@@ -3,7 +3,6 @@ import type {
 	ReservableDeposit,
 	PurchaseUnit,
 	Receipt,
-	PrismaClient,
 } from '@prisma/client';
 export type ReservationsResponse = {
 	startDate: string;

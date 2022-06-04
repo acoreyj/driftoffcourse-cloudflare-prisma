@@ -36,15 +36,16 @@ declare global {
 
 export const getDB = () => {
   if (!db) {
-    if (process.env.NODE_ENV === "production") {
-      db = new PrismaClient();
-    } else {
+    if (process.env.NODE_ENV === "development") {
       if (!global.__db) {
         global.__db = new PrismaClient({
           // log: ['query']
         });
       }
       db = global.__db;
+    } else {
+      db = new PrismaClient();
+ 
     }
   }
   return db;
