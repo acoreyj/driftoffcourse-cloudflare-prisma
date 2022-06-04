@@ -1,5 +1,4 @@
 import type { User } from '@firebase/auth';
-import { PrismaClient } from '@prisma/client';
 import { firebaseIdCookieName } from '~/config';
 import { ImageSizeMeta } from './components/Carousel';
 import { getReservables, ReservableResponse } from './lib/reservables.db.server';
@@ -7,7 +6,6 @@ import {
 	getReservations,
 	ReservationsResponse,
 } from './lib/reservations.db.server';
-import { db } from '~/lib/db.server';
 
 import type { FetcherWithComponents } from './lib/types';
 

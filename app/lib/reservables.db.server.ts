@@ -6,7 +6,7 @@ import type {
 } from '@prisma/client';
 import type { CarouselImage } from '~/components/Carousel';
 import type { DocumentRendererProps } from '@keystone-6/document-renderer';
-import { db } from '~/lib/db.server';
+import { getDB } from '~/lib/db.server';
 
 export type ReservableResponse = Reservable & {
 	images: CarouselImage[];
@@ -158,7 +158,7 @@ const reservableInclude = {
 };
 
 export const getReservables = async (): Promise<ReservableResponse[]> => {
-	const response = (await db.reservable.findMany({
+	const response = (await getDB().reservable.findMany({
 		include: {
 			...reservableInclude,
 		},
@@ -168,7 +168,7 @@ export const getReservables = async (): Promise<ReservableResponse[]> => {
 export const getReservable = async (
 	id?: string
 ): Promise<ReservableResponse> => {
-	const response = (await db.reservable.findFirst({
+	const response = (await getDB().reservable.findFirst({
 		where: {
 			id: id,
 		},

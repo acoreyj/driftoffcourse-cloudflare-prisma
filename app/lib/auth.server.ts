@@ -6,7 +6,7 @@ import type {
 	User,
 	Reservation
 } from '@prisma/client';
-import { db } from '~/lib/db.server';
+import { getDB } from '~/lib/db.server';
 
 import * as cookie from 'cookie';
 import { nanoid } from 'nanoid';
@@ -69,7 +69,7 @@ export const getUserByToken = async (
 	if (!error && decodedToken) {
 		const firebaseId = decodedToken.uid;
 		try {
-			user = await db.user.findUnique({
+			user = await getDB().user.findUnique({
 				where: { firebaseId },
 				include: {
 					reservations: true,
@@ -116,7 +116,7 @@ export const getUserByToken = async (
 					};
 
 					try {
-						user = await db.user.create({
+						user = await getDB().user.create({
 							data,
 							include: {
 								reservations: true,
@@ -134,7 +134,7 @@ export const getUserByToken = async (
 						phoneNumbers,
 					};
 					try {
-						user = await db.user.update({
+						user = await getDB().user.update({
 							data,
 							where: { firebaseId },
 							include: {

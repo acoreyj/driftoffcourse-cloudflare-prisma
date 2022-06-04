@@ -1,18 +1,13 @@
-import type {
-	Reservable,
-	ReservableDeposit,
-	ReservableTerm,
-	AddressStateType
-} from '@prisma/client';
+
 import type { CarouselImage } from '~/components/Carousel';
-import { db } from '~/lib/db.server';
+import { getDB } from '~/lib/db.server';
 
 export const getImages = async (): Promise<CarouselImage[]> => {
-	const response = (await db.reservableImage.findMany()) as CarouselImage[];
+	const response = (await getDB().reservableImage.findMany()) as CarouselImage[];
 	return response;
 };
 export const getImage = async (id?: string): Promise<CarouselImage> => {
-	const response = (await db.reservableImage.findUnique({
+	const response = (await getDB().reservableImage.findUnique({
 		where: {
 			id: id,
 		},

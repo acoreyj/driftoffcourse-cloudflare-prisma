@@ -10,10 +10,10 @@ export type ReservationsResponse = {
 	endDate: string | null;
 	reservableId: string | null;
 };
-import { db } from '~/lib/db.server';
+import { getDB } from '~/lib/db.server';
 
 export const getReservations = async (): Promise<ReservationsResponse[]> => {
-	const response = (await db.reservation.findMany({
+	const response = (await getDB().reservation.findMany({
 		select: {
 			startDate: true,
 			endDate: true,
@@ -38,7 +38,7 @@ export type ReservationResponse =
 export const getReservation = async (
 	id: string
 ): Promise<ReservationResponse> => {
-	const response = await db.reservation.findUnique({
+	const response = await getDB().reservation.findUnique({
 		where: {
 			id,
 		},

@@ -1,6 +1,6 @@
 import * as build from "../build/index.js"
 import { createFetchHandler } from "./adapter"
-import { getClient } from '../app/lib/db.server';
+import { getDB } from '../app/lib/db.server';
 const handleFetch = createFetchHandler({
 	build,
 
@@ -14,8 +14,8 @@ const handleFetch = createFetchHandler({
 	getLoadContext(request, env, context) {
 		return {
 			...context,
-			prismaRead: getClient('read'),
-			prismaWrite: getClient('write'),
+			prismaRead: getDB(),
+			prismaWrite: getDB(),
 			cloudflareAccountId: process.env.CLOUDFLARE_ACCOUNT_ID,
 		};
 	},

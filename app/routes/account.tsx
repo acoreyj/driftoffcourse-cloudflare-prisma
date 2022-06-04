@@ -13,7 +13,6 @@ import {
 import { isAuthenticated, getUserByRequestToken } from '~/lib/auth.server';
 import type { User } from '@prisma/client';
 import { UserContext } from '~/lib/react/context';
-import { db } from '~/lib/db.server';
 
 import { login } from '~/utils';
 

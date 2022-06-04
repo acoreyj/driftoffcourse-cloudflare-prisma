@@ -9,7 +9,7 @@ import { normalizeDate } from '~/utils';
 import { getReservableAvailabilityByDate, isDev } from '~/utils';
 import { getReservable } from './reservables.db.server';
 import type { Prisma, PrismaClient, User } from '@prisma/client';
-import { db } from '~/lib/db.server';
+import { getDB } from '~/lib/db.server';
 import type { ApproveAction } from '~/routes/account/checkout';
 import { sendConfirmationEmail } from '~/emailHelper.server';
 
@@ -231,7 +231,7 @@ export const captureOrder = async (
 		},
 	};
 
-	await db.reservation.create({
+	await getDB().reservation.create({
 		data: createRervationData,
 	});
 
