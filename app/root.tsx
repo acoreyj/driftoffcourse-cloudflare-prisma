@@ -1,9 +1,5 @@
 import type { MetaFunction } from '@remix-run/cloudflare';
-import {
-	ActionFunction,
-	LinksFunction,
-	LoaderFunction,
-} from '@remix-run/cloudflare';
+import { LinksFunction } from '@remix-run/cloudflare';
 
 import {
 	Links,
@@ -13,7 +9,6 @@ import {
 	Scripts,
 	ScrollRestoration,
 	useCatch,
-	useLoaderData,
 	useLocation,
 } from '@remix-run/react';
 
@@ -24,7 +19,6 @@ import { getFirebaseClient } from './lib/firebase/firebase';
 import SiteLayout from './components/SiteLayout';
 import { RootContext } from './lib/react/context';
 import { isClient } from './utils';
-import { paypalClientId } from './config.client';
 import classNames from 'classnames';
 import tailwindcss from './tailwind.css';
 if (!tailwindcss) {
